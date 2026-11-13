@@ -1,8 +1,7 @@
 #!/usr/bin/env python3
 """Generate the Pro's 256-byte EDIDs from CTA/DMT timings, without dependencies.
 
-Run from any directory. Pro presets live below share/edid/pro so the NanoKVM
-recipe's share/edid/*.edid.bin glob cannot install unsupported 4K modes.
+Run from any directory; the presets are written to edid/.
 """
 
 from pathlib import Path
@@ -106,7 +105,7 @@ def generate(index, modes=MODES, display_name=None):
 
 
 if __name__ == "__main__":
-    destination = Path(__file__).resolve().parents[1] / "share/edid/pro"
+    destination = Path(__file__).resolve().parents[1] / "edid"
     destination.mkdir(parents=True, exist_ok=True)
     for index, mode in enumerate(MODES):
         (destination / (mode[0] + ".edid.bin")).write_bytes(generate(index))
@@ -115,4 +114,3 @@ if __name__ == "__main__":
     (destination / "1440p30.edid.bin").write_bytes(generate(
         2, modes=(*MODES[:2], MODE_1440P30), display_name="OneKVM QHD30"))
     generate_common(destination, pro=True)
-    generate_common(destination.parent, pro=False)
