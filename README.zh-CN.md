@@ -12,7 +12,7 @@ Sipeed NanoKVM Pro（AX630C）的机型文件，由 `onekvm-distro` 的 `meta-on
 | `tools/generate-pro-edid.py`、`tools/edid_modes.py` | 按 CTA/DMT 时序重新生成 `edid/` |
 | `tools/pack-pro-emmc.py` | 把系统镜像打包成原厂 Pro eMMC 裸布局 |
 
-`make test` 检查 EDID 预设和 eMMC 打包工具。
+`make test` 检查 EDID 预设、eMMC 打包工具和采集芯片初始化。
 
 ## EDID
 

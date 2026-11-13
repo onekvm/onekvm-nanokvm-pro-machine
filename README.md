@@ -13,7 +13,7 @@ Machine files for the Sipeed NanoKVM Pro (AX630C), built by `onekvm-distro`
 | `tools/generate-pro-edid.py`, `tools/edid_modes.py` | Regenerate `edid/` from CTA/DMT timings |
 | `tools/pack-pro-emmc.py` | Pack a system image into the vendor Pro eMMC raw layout |
 
-`make test` checks the EDID presets and the eMMC packer.
+`make test` checks the EDID presets, the eMMC packer and capture chip initialization.
 
 ## EDID
 

@@ -10,3 +10,4 @@ clean:
 test:
 	$(PYTHON) tests/edid-presets-test.py
 	$(PYTHON) -m unittest tests/pack-pro-emmc-test.py
+	sh tests/capture-chip-init-test.sh
