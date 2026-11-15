@@ -1,0 +1,19 @@
+[Unit]
+Description=Start NanoKVM Pro Ethernet negotiation
+DefaultDependencies=no
+ConditionPathExists=/sys/class/net/eth0
+# networkd keeps a link that is already up and must see the generation mode
+# set here.
+Before=systemd-networkd.service
+
+[Service]
+Type=oneshot
+# Gigabit negotiation takes about 4 s. Starting it here overlaps it with the
+# rest of boot instead of waiting for networkd. udev has not set the final MAC
+# address yet, so the kernel must not derive the IPv6 link-local address now;
+# networkd restores the generation mode when it configures the link.
+ExecStart=/bin/sh -c 'echo 1 >/proc/sys/net/ipv6/conf/eth0/addr_gen_mode; exec ip link set dev eth0 up'
+RemainAfterExit=yes
+
+[Install]
+WantedBy=sysinit.target

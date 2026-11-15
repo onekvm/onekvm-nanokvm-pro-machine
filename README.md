@@ -10,6 +10,7 @@ Machine files for the Sipeed NanoKVM Pro (AX630C), built by `onekvm-distro`
 | `edid/` | 256-byte EDID presets installed on the Pro; `1080p60` is also the factory preset |
 | `src/onekvm-machine-nanokvm-pro-edid` | Capture chip init hook (`20-pro-chip-info`): links the LT6911 driver's chip info to `/run/onekvm/lt6911_info` |
 | `src/onekvm-capture-chip-init`, `systemd/onekvm-capture-chip-init.service` | Runs the chip init hooks before Core starts |
+| `systemd/onekvm-machine-nanokvm-pro-ethernet.service` | Brings `eth0` up as boot starts so gigabit negotiation overlaps the rest of boot |
 | `tools/generate-pro-edid.py`, `tools/edid_modes.py` | Regenerate `edid/` from CTA/DMT timings |
 | `tools/pack-pro-emmc.py` | Pack a system image into the vendor Pro eMMC raw layout |
 

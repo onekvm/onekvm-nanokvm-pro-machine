@@ -9,6 +9,7 @@ Sipeed NanoKVM Pro（AX630C）的机型文件，由 `onekvm-distro` 的 `meta-on
 | `edid/` | Pro 安装的 256 字节 EDID 预设；`1080p60` 同时作为出厂预设 |
 | `src/onekvm-machine-nanokvm-pro-edid` | 采集芯片初始化 hook（`20-pro-chip-info`）：把 LT6911 驱动的芯片信息链接到 `/run/onekvm/lt6911_info` |
 | `src/onekvm-capture-chip-init`、`systemd/onekvm-capture-chip-init.service` | 在 Core 启动前按顺序运行初始化 hook |
+| `systemd/onekvm-machine-nanokvm-pro-ethernet.service` | 启动开始时拉起 `eth0`，让千兆协商与其余启动过程重叠 |
 | `tools/generate-pro-edid.py`、`tools/edid_modes.py` | 按 CTA/DMT 时序重新生成 `edid/` |
 | `tools/pack-pro-emmc.py` | 把系统镜像打包成原厂 Pro eMMC 裸布局 |
 
