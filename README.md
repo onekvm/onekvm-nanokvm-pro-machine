@@ -3,7 +3,7 @@
 English | [简体中文](README.zh-CN.md)
 
 Machine files for the Sipeed NanoKVM Pro (AX630C), built by `onekvm-distro`
-(`meta-onekvm-nanokvm-pro`).
+(`meta-sipeed/meta-nanokvm-pro`).
 
 | Path | Content |
 | --- | --- |

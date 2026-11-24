@@ -2,7 +2,7 @@
 
 [English](README.md) | 简体中文
 
-Sipeed NanoKVM Pro（AX630C）的机型文件，由 `onekvm-distro` 的 `meta-onekvm-nanokvm-pro` 构建。
+Sipeed NanoKVM Pro（AX630C）的机型文件，由 `onekvm-distro` 的 `meta-sipeed/meta-nanokvm-pro` 构建。
 
 | 路径 | 内容 |
 | --- | --- |
