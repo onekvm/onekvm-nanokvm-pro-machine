@@ -7,7 +7,7 @@ Machine files for the Sipeed NanoKVM Pro (AX630C), built by `onekvm-distro`
 
 | Path | Content |
 | --- | --- |
-| `edid/` | 256-byte EDID presets installed on the Pro; `1080p60` is also the factory preset |
+| `edid/` | 256-byte EDID presets installed on the Pro; Core installs the factory and 1080p60 presets every machine shares |
 | `src/onekvm-machine-nanokvm-pro-edid` | Capture chip init hook (`20-pro-chip-info`): links the LT6911 driver's chip info to `/run/onekvm/lt6911_info` |
 | `src/onekvm-capture-chip-init`, `systemd/onekvm-capture-chip-init.service` | Runs the chip init hooks before Core starts |
 | `systemd/onekvm-machine-nanokvm-pro-ethernet.service` | Brings `eth0` up as boot starts so gigabit negotiation overlaps the rest of boot |
@@ -18,11 +18,10 @@ Machine files for the Sipeed NanoKVM Pro (AX630C), built by `onekvm-distro`
 
 ## EDID
 
-Presets installed from `edid/` include:
+Core installs `factory.edid.bin` (default 1920×1080 @ 60 Hz) and
+`1080p60.edid.bin`, shared by every machine. Presets installed from `edid/` include:
 
-- `factory.edid.bin` — default 1920×1080 @ 60 Hz, identical to `1080p60.edid.bin`
 - `2160p30.edid.bin` — preferred 3840×2160 @ 30 Hz
-- `1080p60.edid.bin` — 1920×1080 @ 60 Hz
 - `1440p30.edid.bin` — 2560×1440 @ 30 Hz
 - `1440p60.edid.bin` — 2560×1440 @ 59.95 Hz (nominal 60 Hz)
 - `720p60.edid.bin` — 1280×720 @ 60 Hz
@@ -40,7 +39,7 @@ Stopping SoC capture does not disable the capture bridge or remove its EDID
 from this negotiation. Regenerate the Pro files with
 `python3 tools/generate-pro-edid.py`; the SG200x machine repository keeps its own presets.
 
-The Pro machine package ships EDID presets, including 1080p60, for the Web
+The Pro machine package ships EDID presets, including 2160p30, for the Web
 EDID settings. Boot never programs the bridge EDID: the bridge keeps its
 existing EDID until the user changes it. The Pro bridge can be LT6911UXC,
 LT6911D or LT6911C; the family driver detects the register ID rather than
