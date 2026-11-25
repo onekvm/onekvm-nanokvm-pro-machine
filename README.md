@@ -7,7 +7,7 @@ Machine files for the Sipeed NanoKVM Pro (AX630C), built by `onekvm-distro`
 
 | Path | Content |
 | --- | --- |
-| `edid/` | 256-byte EDID presets installed on the Pro; Core installs the factory and 1080p60 presets every machine shares |
+| `edid/` | 256-byte EDID presets installed on the Pro; the factory and 1080p60 presets every machine shares come from `onekvm-distro` |
 | `src/onekvm-machine-nanokvm-pro-edid` | Capture chip init hook (`20-pro-chip-info`): links the LT6911 driver's chip info to `/run/onekvm/lt6911_info` |
 | `src/onekvm-capture-chip-init`, `systemd/onekvm-capture-chip-init.service` | Runs the chip init hooks before Core starts |
 | `systemd/onekvm-machine-nanokvm-pro-ethernet.service` | Brings `eth0` up as boot starts so gigabit negotiation overlaps the rest of boot |
@@ -18,8 +18,9 @@ Machine files for the Sipeed NanoKVM Pro (AX630C), built by `onekvm-distro`
 
 ## EDID
 
-Core installs `factory.edid.bin` (default 1920×1080 @ 60 Hz) and
-`1080p60.edid.bin`, shared by every machine. Presets installed from `edid/` include:
+The machine package also installs `factory.edid.bin` (default 1920×1080 @ 60 Hz)
+and `1080p60.edid.bin`, the same file on every machine (`onekvm-machine-files.inc`
+in `onekvm-distro`). Presets installed from `edid/` include:
 
 - `2160p30.edid.bin` — preferred 3840×2160 @ 30 Hz
 - `1440p30.edid.bin` — 2560×1440 @ 30 Hz

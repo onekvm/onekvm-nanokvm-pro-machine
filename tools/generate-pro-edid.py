@@ -108,7 +108,7 @@ if __name__ == "__main__":
     destination = Path(__file__).resolve().parents[1] / "edid"
     destination.mkdir(parents=True, exist_ok=True)
     for index, mode in enumerate(MODES):
-        # Core installs the 1080p60 factory EDID that every machine shares.
+        # The 1080p60 factory EDID every machine shares comes from onekvm-distro.
         if mode[0] == "1080p60":
             continue
         (destination / (mode[0] + ".edid.bin")).write_bytes(generate(index))

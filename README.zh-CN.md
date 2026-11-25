@@ -6,7 +6,7 @@ Sipeed NanoKVM Pro（AX630C）的机型文件，由 `onekvm-distro` 的 `meta-si
 
 | 路径 | 内容 |
 | --- | --- |
-| `edid/` | Pro 安装的 256 字节 EDID 预设；出厂预设和 1080p60 由 Core 安装，各机型共用 |
+| `edid/` | Pro 安装的 256 字节 EDID 预设；各机型共用的出厂预设和 1080p60 来自 `onekvm-distro` |
 | `src/onekvm-machine-nanokvm-pro-edid` | 采集芯片初始化 hook（`20-pro-chip-info`）：把 LT6911 驱动的芯片信息链接到 `/run/onekvm/lt6911_info` |
 | `src/onekvm-capture-chip-init`、`systemd/onekvm-capture-chip-init.service` | 在 Core 启动前按顺序运行初始化 hook |
 | `systemd/onekvm-machine-nanokvm-pro-ethernet.service` | 启动开始时拉起 `eth0`，让千兆协商与其余启动过程重叠 |
@@ -17,8 +17,8 @@ Sipeed NanoKVM Pro（AX630C）的机型文件，由 `onekvm-distro` 的 `meta-si
 
 ## EDID
 
-`factory.edid.bin`（默认 1920×1080 @ 60 Hz）和 `1080p60.edid.bin` 由 Core 安装，
-所有机型共用。从 `edid/` 安装的预设包括：
+机型包同时安装 `factory.edid.bin`（默认 1920×1080 @ 60 Hz）和 `1080p60.edid.bin`，
+所有机型是同一个文件（`onekvm-distro` 的 `onekvm-machine-files.inc`）。从 `edid/` 安装的预设包括：
 
 - `2160p30.edid.bin` — 首选 3840×2160 @ 30 Hz
 - `1440p30.edid.bin` — 2560×1440 @ 30 Hz
