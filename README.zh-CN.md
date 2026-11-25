@@ -36,6 +36,8 @@ HDMI 一分二向主机
 主机才能选择该模式。仅停止 SoC 取帧不会关闭采集桥片，也不会将采集端
 EDID 从协商中移除。使用
 `python3 tools/generate-pro-edid.py` 可重新生成；SG200x 的预设由其机型仓库维护。
+每个预设使用独立的 PnP 产品号（出厂预设保持 0x630C），Windows 不会沿用为其他预设
+缓存的 EDID。
 
 Pro 机型包附带 2160p30 等 EDID 预设，供网页 EDID 设置选择。开机不写入桥片
 EDID，桥片保留原有 EDID，用户可在网页上更改。Pro 的 `20-pro-chip-info` hook

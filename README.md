@@ -39,6 +39,8 @@ The loopout display must also support 4K30 for that mode to be advertised.
 Stopping SoC capture does not disable the capture bridge or remove its EDID
 from this negotiation. Regenerate the Pro files with
 `python3 tools/generate-pro-edid.py`; the SG200x machine repository keeps its own presets.
+Each preset has its own PnP product ID (the factory preset keeps 0x630C), so
+Windows does not reuse an EDID it cached for another preset.
 
 The Pro machine package ships EDID presets, including 2160p30, for the Web
 EDID settings. Boot never programs the bridge EDID: the bridge keeps its
