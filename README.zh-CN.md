@@ -2,13 +2,14 @@
 
 [English](README.md) | 简体中文
 
-Sipeed NanoKVM Pro（AX630C）的机型文件，由 `onekvm-distro` 的 `meta-onekvm-nanokvm-pro` 构建。
+Sipeed NanoKVM Pro（AX630C）的机型文件，由 `onekvm-distro` 的 `meta-sipeed/meta-nanokvm-pro` 构建。
 
 | 路径 | 内容 |
 | --- | --- |
-| `edid/` | Pro 安装的 256 字节 EDID 预设；`1080p60` 同时作为出厂预设 |
+| `edid/` | Pro 安装的 256 字节 EDID 预设；各机型共用的出厂预设和 1080p60 来自 `onekvm-distro` |
 | `src/onekvm-machine-nanokvm-pro-edid` | 采集芯片初始化 hook（`20-pro-chip-info`）：把 LT6911 驱动的芯片信息链接到 `/run/onekvm/lt6911_info` |
 | `src/onekvm-capture-chip-init`、`systemd/onekvm-capture-chip-init.service` | 在 Core 启动前按顺序运行初始化 hook |
+| `systemd/onekvm-machine-nanokvm-pro-ethernet.service` | 启动开始时拉起 `eth0`，让千兆协商与其余启动过程重叠 |
 | `tools/generate-pro-edid.py`、`tools/edid_modes.py` | 按 CTA/DMT 时序重新生成 `edid/` |
 | `tools/pack-pro-emmc.py` | 把系统镜像打包成原厂 Pro eMMC 裸布局 |
 
@@ -16,11 +17,10 @@ Sipeed NanoKVM Pro（AX630C）的机型文件，由 `onekvm-distro` 的 `meta-on
 
 ## EDID
 
-从 `edid/` 安装的预设包括：
+机型包同时安装 `factory.edid.bin`（默认 1920×1080 @ 60 Hz）和 `1080p60.edid.bin`，
+所有机型是同一个文件（`onekvm-distro` 的 `onekvm-machine-files.inc`）。从 `edid/` 安装的预设包括：
 
-- `factory.edid.bin` — 默认 1920×1080 @ 60 Hz，与 `1080p60.edid.bin` 相同
 - `2160p30.edid.bin` — 首选 3840×2160 @ 30 Hz
-- `1080p60.edid.bin` — 1920×1080 @ 60 Hz
 - `1440p30.edid.bin` — 2560×1440 @ 30 Hz
 - `1440p60.edid.bin` — 2560×1440 @ 59.95 Hz（标称 60 Hz）
 - `720p60.edid.bin` — 1280×720 @ 60 Hz
@@ -36,8 +36,10 @@ HDMI 一分二向主机
 主机才能选择该模式。仅停止 SoC 取帧不会关闭采集桥片，也不会将采集端
 EDID 从协商中移除。使用
 `python3 tools/generate-pro-edid.py` 可重新生成；SG200x 的预设由其机型仓库维护。
+每个预设使用独立的 PnP 产品号（出厂预设保持 0x630C），Windows 不会沿用为其他预设
+缓存的 EDID。
 
-Pro 机型包附带 1080p60 等 EDID 预设，供网页 EDID 设置选择。开机不写入桥片
+Pro 机型包附带 2160p30 等 EDID 预设，供网页 EDID 设置选择。开机不写入桥片
 EDID，桥片保留原有 EDID，用户可在网页上更改。Pro 的 `20-pro-chip-info` hook
 只把 `/run/onekvm/lt6911_info` 链接到驱动的 `/proc/lt6911_info`，与 SG2002 MMF
 诊断缓存使用相同的查找路径；驱动不存在时不视为初始化失败。

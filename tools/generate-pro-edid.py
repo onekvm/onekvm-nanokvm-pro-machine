@@ -5,7 +5,7 @@ Run from any directory; the presets are written to edid/.
 """
 
 from pathlib import Path
-from edid_modes import generate_common
+from edid_modes import generate_common, product_id
 
 
 # name, pixel clock (kHz), active/blanking, sync front porch/width, polarity, VIC.
@@ -60,7 +60,9 @@ def generate(index, modes=MODES, display_name=None):
     base = bytearray(128)
     base[:8] = bytes.fromhex("00ffffffffffff00")
     base[8:10] = bytes.fromhex("3d76")  # OKV (OneKVM).
-    base[10:12] = (0x630C).to_bytes(2, "little")
+    width, height = mode[2], mode[4]
+    refresh = int(name.split("p")[1])
+    base[10:12] = product_id(width, height, refresh).to_bytes(2, "little")
     base[16:25] = bytes((1, 36, 1, 3, 0x80, 64, 36, 120, 0x0E))
     base[25:35] = bytes.fromhex("ee91a3544c99260f5054")  # sRGB.
     base[35:38] = bytes((0xA1, 0x08, 0))  # BIOS-safe established timings.
@@ -108,9 +110,12 @@ if __name__ == "__main__":
     destination = Path(__file__).resolve().parents[1] / "edid"
     destination.mkdir(parents=True, exist_ok=True)
     for index, mode in enumerate(MODES):
+        # The 1080p60 factory EDID every machine shares comes from onekvm-distro.
+        if mode[0] == "1080p60":
+            continue
         (destination / (mode[0] + ".edid.bin")).write_bytes(generate(index))
     (destination / "1080p120.edid.bin").write_bytes(generate(
         2, modes=(*MODES[:2], MODE_1080P120), display_name="OneKVM 120Hz"))
     (destination / "1440p30.edid.bin").write_bytes(generate(
         2, modes=(*MODES[:2], MODE_1440P30), display_name="OneKVM QHD30"))
-    generate_common(destination, pro=True)
+    generate_common(destination, "pro")
